@@ -1,7 +1,6 @@
 package celeritas
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -15,11 +14,7 @@ func (c *Celeritas) routes() http.Handler {
 	if c.Debug {
 		mux.Use(middleware.Logger)
 	}
-
 	mux.Use(middleware.Recoverer)
-	mux.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Welcome to Celeritas")
-	})
 
 	return mux
 }
