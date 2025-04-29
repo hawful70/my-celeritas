@@ -13,5 +13,4 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
 	return a.App.Routes
-
 }
