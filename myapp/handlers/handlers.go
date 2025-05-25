@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/CloudyKit/jet/v6"
 	celeritas "github.com/hawful70/my-celeritas"
 )
 
@@ -18,11 +19,16 @@ func (h *Handlers) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) SessionTest(w http.ResponseWriter, r *http.Request) {
-	myData := "foo"
+	myData := "bar"
 
-	h.App.Session.Put(r.Context(), "bar", myData)
+	h.App.Session.Put(r.Context(), "foo", myData)
 
-	err := h.App.Render.JetPage(w, r, SessionTestHandler, nil, nil)
+	myValue := h.App.Session.GetString(r.Context(), "foo")
+
+	vars := make(jet.VarMap)
+	vars.Set("foo", myValue)
+
+	err := h.App.Render.JetPage(w, r, SessionTestHandler, vars, nil)
 	if err != nil {
 		h.App.ErrorLog.Println("error rendering:", err)
 	}
