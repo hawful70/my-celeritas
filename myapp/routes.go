@@ -8,6 +8,7 @@ import (
 
 func (a *application) routes() *chi.Mux {
 	a.App.Routes.Get("/", a.Handlers.Home)
+	a.App.Routes.Get("/session-test", a.Handlers.SessionTest)
 
 	fileServer := http.FileServer(http.Dir("./public"))
 	a.App.Routes.Handle("/public/*", http.StripPrefix("/public", fileServer))
