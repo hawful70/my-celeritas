@@ -1,3 +1,4 @@
 **/tmp/
 **/vendor/
 **/coverage.out
+**/db-data/
