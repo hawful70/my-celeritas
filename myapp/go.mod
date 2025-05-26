@@ -9,7 +9,7 @@ require (
 	github.com/CloudyKit/jet/v6 v6.3.1 // indirect
 	github.com/alexedwards/scs/v2 v2.8.0 // indirect
 	github.com/go-chi/chi/v5 v5.2.1 // indirect
-	github.com/hawful70/my-celeritas v0.0.0-20250525160214-8ac736b56720 // indirect
+	github.com/hawful70/my-celeritas v0.0.0-20250526102639-620470c4c9ce // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.3 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
