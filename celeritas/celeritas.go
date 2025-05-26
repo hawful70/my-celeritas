@@ -28,6 +28,7 @@ type Celeritas struct {
 	Routes   *chi.Mux
 	Render   *render.Render
 	Session  *scs.SessionManager
+	DB       Database
 	JetViews *jet.Set
 	config   config
 }
@@ -37,6 +38,7 @@ type config struct {
 	renderer    string
 	cookie      cookieConfig
 	sessionType string
+	database    databaseConfig
 }
 
 func (c *Celeritas) New(rootPath string) error {
@@ -61,6 +63,19 @@ func (c *Celeritas) New(rootPath string) error {
 	}
 
 	infoLog, errorLog := c.startLoggers()
+
+	if os.Getenv("DATABASE_TYPE") != "" {
+		db, err := c.OpenDB(os.Getenv("DATABASE_TYPE"), c.BuildDSN())
+		if err != nil {
+			errorLog.Println(err)
+			os.Exit(1)
+		}
+		c.DB = Database{
+			DataType: os.Getenv("DATABASE_TYPE"),
+			Pool:     db,
+		}
+	}
+
 	c.InfoLog = infoLog
 	c.ErrorLog = errorLog
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
@@ -154,4 +169,27 @@ func (c *Celeritas) createRenderer() {
 		JetViews: c.JetViews,
 	}
 	c.Render = &myRenderer
+}
+
+func (c *Celeritas) BuildDSN() string {
+	var dsn string
+
+	switch os.Getenv("DATABASE_TYPE") {
+	case "postgres", "postgresql":
+		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s timezone=UTC connect_timeout=5",
+			os.Getenv("DATABASE_HOST"),
+			os.Getenv("DATABASE_PORT"),
+			os.Getenv("DATABASE_USER"),
+			os.Getenv("DATABASE_NAME"),
+			os.Getenv("DATABASE_SSL_MODE"))
+
+		// we check to see if a database passsword has been supplied, since including "password=" with nothing
+		// after it sometimes causes postgres to fail to allow a connection.
+		if os.Getenv("DATABASE_PASS") != "" {
+			dsn = fmt.Sprintf("%s password=%s", dsn, os.Getenv("DATABASE_PASS"))
+		}
+	default:
+	}
+
+	return dsn
 }

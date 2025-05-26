@@ -2,6 +2,8 @@ BINARY_NAME=celeritasApp
 
 build:
 	@go mod vendor
+	@echo "Installing dependencies..."
+	@go get github.com/hawful70/my-celeritas
 	@echo "Building Celeritas..."
 	@go build -o tmp/${BINARY_NAME} .
 	@echo "Celeritas built!"
