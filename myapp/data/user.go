@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"time"
 
 	up "github.com/upper/db/v4"
@@ -145,4 +146,17 @@ func (u *User) ResetPassword(id int, password string) error {
 	}
 
 	return nil
+}
+
+func (u *User) PasswordMatches(password string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+	return true, nil
 }
