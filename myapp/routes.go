@@ -12,6 +12,7 @@ import (
 func (a *application) routes() *chi.Mux {
 	a.App.Routes.Get("/", a.Handlers.Home)
 	a.App.Routes.Get("/session-test", a.Handlers.SessionTest)
+	a.App.Routes.Get("/users/login", a.Handlers.UserLogin)
 
 	a.App.Routes.Get("/test-create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
