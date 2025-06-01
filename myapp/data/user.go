@@ -24,12 +24,12 @@ func (u *User) Table() string {
 	return Users
 }
 
-func (u *User) GetAll(condition up.Cond) ([]*User, error) {
+func (u *User) GetAll() ([]*User, error) {
 	collection := upper.Collection(u.Table())
 
 	var all []*User
 
-	res := collection.Find(condition)
+	res := collection.Find().OrderBy("last_name")
 	err := res.All(&all)
 	if err != nil {
 		return nil, err

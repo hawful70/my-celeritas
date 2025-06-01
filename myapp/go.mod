@@ -9,7 +9,7 @@ replace github.com/hawful70/my-celeritas => ../celeritas
 require (
 	github.com/CloudyKit/jet/v6 v6.3.1
 	github.com/go-chi/chi/v5 v5.2.1
-	github.com/hawful70/my-celeritas v0.0.0-20250526143602-cb58d620c54e
+	github.com/hawful70/my-celeritas v0.0.0-20250530082125-9dfb26ccf0f5
 	github.com/upper/db/v4 v4.10.0
 	golang.org/x/crypto v0.38.0
 )
